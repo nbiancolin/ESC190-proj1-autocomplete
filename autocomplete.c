@@ -5,34 +5,35 @@
 #include "autocomplete.h";
 
 
-void read_in_terms(struct term **terms, int *pnterms, char *filename){
-    FILE *file;
-    file = fopen(filename, "r");
-
-    //*terms = malloc((int)sizeof(char) * *pnterms); //Allocates enough memory for the file.
-    *terms; //= pointer to all the words in memory.
-
-
-    char ch;
-    char *buffer = '\0'; //Purpose of the buffer (in my mind) was to store the word until a tab is found, then store the pointer to the buffer in the term struct.
-
-    while((ch = fgetc(file)) != EOF){ //Finds the number of terms in the file.
-        if(ch == '\t'){
-            *pnterms += 1; //I found out how to count the terms in this file, but don't know how to store them.
-            //**terms->term = buffer; //should store the pointer to the buffer in the term struct.
-            //*buffer = '\0';
-        } else {
-            //buffer = strcat(buffer, (char *) ch);
-        }
-
+void read_in_terms(struct term **terms, int *pnterms, char *filename) {
+    FILE *p_file = fopen(filename, "r");
+    if (p_file == NULL) { // check if fopen failed
+        printf("Error opening file");
+        exit(1);
     }
-
-    *terms = malloc((int)sizeof(char) * *pnterms); //Allocates enough memory for the file.
-
-    fclose(file);
-
-
+    int nterms = 0;
+    char line[200];
+    while (fgets(line, 200, p_file) != NULL) { // count number of lines in file
+        nterms++;
+    }
+    *pnterms = nterms;
+    *terms = malloc(nterms * sizeof(struct term));
+    if (*terms == NULL) { // check if malloc failed
+        printf("Error allocating memory");
+        exit(1);
+    }
+    rewind(fp);
+    int i = 0;
+    while (fgets(line, 200, fp) != NULL) { // read in terms and weights
+        char *token = strtok(line, " ");
+        strcpy((*terms)[i].term, token);
+        token = strtok(NULL, " ");
+        (*terms)[i].weight = atof(token);
+        i++;
+    }
+    fclose(fp);
 }
+
 
 
 
