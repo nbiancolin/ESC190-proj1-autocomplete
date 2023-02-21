@@ -22,7 +22,7 @@ void read_in_terms(struct term **terms, int *pnterms, char *filename) {
         printf("Error allocating memory");
         exit(1);
     }
-    rewind(fp);
+    rewind(p_file);
     int i = 0;
     while (fgets(line, 200, fp) != NULL) { // read in terms and weights
         char *token = strtok(line, " ");
@@ -31,10 +31,12 @@ void read_in_terms(struct term **terms, int *pnterms, char *filename) {
         (*terms)[i].weight = atof(token);
         i++;
     }
-    fclose(fp);
+    fclose(p_file);
 }
 
+int lowest_match(term *terms, int nterms, char *substr){
 
+}
 
 
 int main(void){
