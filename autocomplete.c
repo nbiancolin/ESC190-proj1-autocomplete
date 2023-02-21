@@ -24,7 +24,7 @@ void read_in_terms(struct term **terms, int *pnterms, char *filename) {
     }
     rewind(p_file);
     int i = 0;
-    while (fgets(line, 200, fp) != NULL) { // read in terms and weights
+    while (fgets(line, 200, p_file) != NULL) { // read in terms and weights
         char *token = strtok(line, " ");
         strcpy((*terms)[i].term, token);
         token = strtok(NULL, " ");
