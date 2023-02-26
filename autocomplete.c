@@ -5,6 +5,33 @@
 
 #include "autocomplete.h"
 
+int partition(term **terms, int low, int high) { // partition function for quicksort
+    term pivot = (*terms)[high];
+    int i = low - 1;
+    for (int j = low; j < high; j++) { // puts all terms less than pivot to the left of pivot
+        if (strcmp((*terms)[j].term, pivot.term) < 0) {
+            i++;
+            term temp = (*terms)[i];
+            (*terms)[i] = (*terms)[j];
+            (*terms)[j] = temp;
+        }
+    }
+    term temp = (*terms)[i + 1];
+    (*terms)[i + 1] = (*terms)[high];
+    (*terms)[high] = temp;
+    return i + 1;
+}
+
+void sort_terms(term **terms, int low, int high) { // quicksort
+    if (low < high) {
+        int pivot = partition(terms, low, high);
+        sort_terms(terms, low, pivot - 1);
+        sort_terms(terms, pivot + 1, high);
+    }
+}
+
+
+
 /*
 void read_in_terms(struct term **terms, int *pnterms, char *filename) {
     FILE *p_file = fopen(filename, "r");
@@ -35,7 +62,7 @@ void read_in_terms(struct term **terms, int *pnterms, char *filename) {
     fclose(p_file);
 }*/
 
-void read_in_terms(struct term **terms, int *pnterms, char *filename) {
+void read_in_terms(term **terms, int *pnterms, char *filename) {
     FILE *p_file = fopen(filename, "r");
     //FILE *p_file = fopen("cities2.txt", "r");
     if (p_file == NULL) { // check if fopen failed
@@ -88,8 +115,16 @@ void read_in_terms(struct term **terms, int *pnterms, char *filename) {
         //(*terms)[i].weight = atof(token);
         i++;
     }
+    sort_terms(terms, 0, nterms - 1);
+
     fclose(p_file);
 }
+
+
+
+
+
+
 
 /*
 int main(void) {
