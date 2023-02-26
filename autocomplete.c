@@ -87,7 +87,7 @@ void read_in_terms(term **terms, int *pnterms, char *filename) {
     rewind(p_file);
     fgets(line, 200, p_file); //skips over first line (bc it's just the number of terms)
     int i = 0;
-    char *mass;
+    //char *mass;
     while (fgets(line, 200, p_file) != NULL) { // read in terms and weights
         /*
         char *token = strtok(line, " ");
@@ -96,14 +96,25 @@ void read_in_terms(term **terms, int *pnterms, char *filename) {
         (*terms)[i].weight = atof(token);
         i++;
          */
+        //printf("%s", line);
 
-        char *token = strtok(line, " ");
+        char *token = strtok(line, "\n");
         while(*token == ' ')token++; //should take care of the whitespace at the beginning of each line (STUPID AND I HATE IT) -nick
         //printf("%s", token);
         token = strtok(token, "\t");
+
+
+        //while(*line == ' ')line++; //should take care of the whitespace at the beginning of each line (STUPID AND I HATE IT) -nick
+
+
+
         (*terms)[i].weight = atof(token); //weight works, term does not.
         //char *token2 = strtok(line, " ");
-        token = strtok(NULL, "\n");
+
+        //char* token2 = strtok(line, "\0");
+        //while(*token2 == ' ' || isn)token2++; //should take care of the whitespace at the beginning of each line (STUPID AND I HATE IT) -nick
+
+        token = strtok(NULL, "\0");
         //char *token2 = strtok(line,"\t");
         //token2 = strtok(NULL,"\n");
 
