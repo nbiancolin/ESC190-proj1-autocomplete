@@ -98,7 +98,7 @@ int main(void) {
     } 
 
   //test infrastructure only
-char *query = "Islam";
+char *query = "Zho";
 int ind = lowest_match(term_list, num_terms, query);
 printf("The index is: %d\n and the result is: %s", lowest_match(term_list, num_terms, query), term_list[ind].term);
   return 0;
