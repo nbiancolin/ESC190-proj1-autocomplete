@@ -6,5 +6,5 @@ C_DEFINES =
 
 C_INCLUDES = @CMakeFiles/ESC190_proj1_autocomplete.dir/includes_C.rsp
 
-C_FLAGS = -g -fdiagnostics-color=always -std=gnu11
+C_FLAGS = -g -fdiagnostics-color=always -std=gnu99
 
