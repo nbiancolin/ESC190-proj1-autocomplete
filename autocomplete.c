@@ -32,36 +32,6 @@ void sort_terms(term **terms, int low, int high) { // quicksort
 
 
 
-/*
-void read_in_terms(struct term **terms, int *pnterms, char *filename) {
-    FILE *p_file = fopen(filename, "r");
-    if (p_file == NULL) { // check if fopen failed
-        printf("Error opening file");
-        exit(1);
-    }
-    int nterms = 0;
-    char line[200];
-    while (fgets(line, 200, p_file) != NULL) { // count number of lines in file
-        nterms++;
-    }
-    *pnterms = nterms;
-    *terms = malloc(nterms * sizeof(struct term));
-    if (*terms == NULL) { // check if malloc failed
-        printf("Error allocating memory");
-        exit(1);
-    }
-    rewind(p_file);
-    int i = 0;
-    while (fgets(line, 200, p_file) != NULL) { // read in terms and weights
-        char *token = strtok(line, " ");
-        strcpy((*terms)[i].term, token);
-        token = strtok(NULL, " ");
-        (*terms)[i].weight = atof(token);
-        i++;
-    }
-    fclose(p_file);
-}*/
-
 void read_in_terms(term **terms, int *pnterms, char *filename) {
     FILE *p_file = fopen(filename, "r");
     //FILE *p_file = fopen("cities2.txt", "r");
@@ -76,9 +46,11 @@ void read_in_terms(term **terms, int *pnterms, char *filename) {
     //    nterms++;
     //}
 
-    fgets(line, 200, p_file); //gets first line of file and puts it in line
-    nterms = atoi(line); //gets int of first line of file
-    *pnterms = nterms; //assigns pointer
+    //Finds number of terms (no need for a while loop, the number of terms is given)
+    fgets(line, 200, p_file);
+    nterms = atoi(line);
+    *pnterms = nterms;
+
     *terms = malloc(nterms * sizeof(struct term)); //malloc's based on number of terms.
     if (*terms == NULL) { // check if malloc failed
         printf("Error allocating memory");
@@ -89,41 +61,16 @@ void read_in_terms(term **terms, int *pnterms, char *filename) {
     int i = 0;
     //char *mass;
     while (fgets(line, 200, p_file) != NULL) { // read in terms and weights
-        /*
-        char *token = strtok(line, " ");
-        strcpy((*terms)[i].term, token);
-        token = strtok(NULL, " ");
-        (*terms)[i].weight = atof(token);
-        i++;
-         */
-        //printf("%s", line);
 
         char *token = strtok(line, "\n");
         while(*token == ' ')token++; //should take care of the whitespace at the beginning of each line (STUPID AND I HATE IT) -nick
         //printf("%s", token);
         token = strtok(token, "\t");
+        (*terms)[i].weight = atof(token);
 
-
-        //while(*line == ' ')line++; //should take care of the whitespace at the beginning of each line (STUPID AND I HATE IT) -nick
-
-
-
-        (*terms)[i].weight = atof(token); //weight works, term does not.
-        //char *token2 = strtok(line, " ");
-
-        //char* token2 = strtok(line, "\0");
-        //while(*token2 == ' ' || isn)token2++; //should take care of the whitespace at the beginning of each line (STUPID AND I HATE IT) -nick
 
         token = strtok(NULL, "\0");
-        //char *token2 = strtok(line,"\t");
-        //token2 = strtok(NULL,"\n");
-
         strcpy((*terms)[i].term, token);
-        //token = strtok(line, "\t");
-        //token = strtok(NULL, "\t");
-        //strcpy((*terms)[i].term, token);
-        //token = strtok(NULL, "\t");
-        //(*terms)[i].weight = atof(token);
         i++;
     }
     sort_terms(terms, 0, nterms - 1);
@@ -132,7 +79,24 @@ void read_in_terms(term **terms, int *pnterms, char *filename) {
 }
 
 
-
+int lowest_match(term *terms, int nterms, char *substr) {
+    int left = 0;
+    int right = nterms - 1;
+    int index = -1;
+    while (left <= right) {
+        int mid = (left + right) / 2;
+        int cmp = strncmp(terms[mid].term, substr, strlen(substr));
+        if (cmp < 0) {
+            left = mid + 1;
+        } else if (cmp > 0) {
+            right = mid - 1;
+        } else {
+            index = mid;
+            right = mid - 1;
+        }
+    }
+    return index;
+}
 
 
 
