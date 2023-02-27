@@ -118,7 +118,7 @@ int lowest_match(term *terms, int nterms, char *substr) {
 
     }
 
-    while (strncmp(terms[index-1].term, substr, strlen(substr))==0 && index > 0) {
+    while (index > 0 && strncmp(terms[index-1].term, substr, strlen(substr))==0) { //here
         index--;
     }
     return index;
@@ -140,7 +140,7 @@ int highest_match(struct term *terms, int nterms, char *substr) {
             right = mid - 1;
         }
     }
-    while (strncmp(terms[index+1].term, substr, strlen(substr))==0 && index < nterms) {
+    while (index < nterms && strncmp(terms[index+1].term, substr, strlen(substr))==0) {
         index++;
     }
     return index;
@@ -190,7 +190,7 @@ void autocomplete(term **answer, int *n_answer, term *terms, int nterms, char *s
     //Step 5: Set n_answer to the number of answers.
 
     *n_answer = highest - lowest + 1;
-    return;
+    //return;
 
 
 }
