@@ -5,7 +5,7 @@
 
 #include "autocomplete.h"
 
-int partition(term **terms, int low, int high) { // partition function for quicksort
+int x_i_star(term **terms, int low, int high) { // We love Jimmy Davis for ruining the word Partition so much that I had to rename this function in his honour (x_i*, the partition when evaluating an integral)
     term pivot = (*terms)[high];
     int i = low - 1;
     for (int j = low; j < high; j++) { // puts all terms less than pivot to the left of pivot
@@ -24,7 +24,7 @@ int partition(term **terms, int low, int high) { // partition function for quick
 
 void sort_terms(term **terms, int low, int high) { // quicksort
     if (low < high) {
-        int pivot = partition(terms, low, high);
+        int pivot = x_i_star(terms, low, high);
         sort_terms(terms, low, pivot - 1);
         sort_terms(terms, pivot + 1, high);
     }
@@ -168,7 +168,7 @@ void autocomplete(term **answer, int *n_answer, term *terms, int nterms, char *s
 
     //Step 1: Call "read in terms" with *terms, to set up for the next question.
 
-    read_in_terms(&terms, &nterms , "wiktionary.txt");  //Not sure the point of nterms but whatever.
+    read_in_terms(&terms, &nterms , "cities.txt");  //Not sure the point of nterms but whatever.
 
     //Step 2: Find the lowest and highest matches of substring.
 
@@ -178,7 +178,7 @@ void autocomplete(term **answer, int *n_answer, term *terms, int nterms, char *s
     //Step 3: Take selected terms and put them into an 'answer' array
 
     *answer = malloc((highest - lowest + 1) * sizeof(struct term));
-    for(int i = lowest; i <= highest; i++){
+    for(int i = lowest; i < highest; i++){
         (*answer)[i - lowest] = terms[i];
     }
 

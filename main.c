@@ -44,8 +44,15 @@ int main(void){
     autocomplete(&answer, &num_answer, term_list, num_terms, "Tor");
     printf("Hello");
     for(int i = 0; i < num_answer; i++){
-        printf("Term: %s Weight: %f\n", (answer[i]).term, (answer[i]).weight);
+        //printf("Term: %s Weight: %f\n", (answer[i]).term, (answer[i]).weight);
+        printf("Term: %s", (answer[i]).term);
     }
+
+    //char hi = "Tor";
+    char* hi2 = "Tor";
+    something = lowest_match(term_list, num_terms, hi2);
+    printf("Lowest match: %d", something);
+    printf("term: %s", term_list[something].term);
 
 }
 /*
