@@ -94,12 +94,13 @@ int main(void) {
     read_in_terms(&term_list, &num_terms, "cities.txt");
 
     for(int j = 0; j<num_terms; j++) {
-        /*printf("Index: %d Term: %s\tWeight: %lf\n", j, (term_list)[j].term, (term_list)[j].weight);*/
     } 
 
   //test infrastructure only
-char *query = "Zho";
+char *query = "Zho"; //Should output Zhob, Pakistan
 int ind = lowest_match(term_list, num_terms, query);
 printf("The index is: %d\n and the result is: %s", lowest_match(term_list, num_terms, query), term_list[ind].term);
   return 0;
 }
+
+//Hassan Tahir 2023-01-26
