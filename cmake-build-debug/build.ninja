@@ -51,7 +51,7 @@ build cmake_object_order_depends_target_ESC190_proj1_autocomplete: phony || CMak
 
 build CMakeFiles/ESC190_proj1_autocomplete.dir/autocomplete.c.obj: C_COMPILER__ESC190_proj1_autocomplete_Debug C$:/Users/Nicholas/Documents/GitHub/ESC190-proj1-autocomplete/autocomplete.c || cmake_object_order_depends_target_ESC190_proj1_autocomplete
   DEP_FILE = CMakeFiles\ESC190_proj1_autocomplete.dir\autocomplete.c.obj.d
-  FLAGS = -g -fdiagnostics-color=always -std=gnu11
+  FLAGS = -g -fdiagnostics-color=always -std=gnu99
   INCLUDES = -IC:/Users/Nicholas/Documents/GitHub/ESC190-proj1-autocomplete/.
   OBJECT_DIR = CMakeFiles\ESC190_proj1_autocomplete.dir
   OBJECT_FILE_DIR = CMakeFiles\ESC190_proj1_autocomplete.dir
@@ -60,7 +60,7 @@ build CMakeFiles/ESC190_proj1_autocomplete.dir/autocomplete.c.obj: C_COMPILER__E
 
 build CMakeFiles/ESC190_proj1_autocomplete.dir/main.c.obj: C_COMPILER__ESC190_proj1_autocomplete_Debug C$:/Users/Nicholas/Documents/GitHub/ESC190-proj1-autocomplete/main.c || cmake_object_order_depends_target_ESC190_proj1_autocomplete
   DEP_FILE = CMakeFiles\ESC190_proj1_autocomplete.dir\main.c.obj.d
-  FLAGS = -g -fdiagnostics-color=always -std=gnu11
+  FLAGS = -g -fdiagnostics-color=always -std=gnu99
   INCLUDES = -IC:/Users/Nicholas/Documents/GitHub/ESC190-proj1-autocomplete/.
   OBJECT_DIR = CMakeFiles\ESC190_proj1_autocomplete.dir
   OBJECT_FILE_DIR = CMakeFiles\ESC190_proj1_autocomplete.dir

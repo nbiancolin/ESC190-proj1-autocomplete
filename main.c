@@ -20,11 +20,14 @@ int main(void){
     term* term_list;
     int num_terms;
     printf("Hello");
-    read_in_terms(&term_list, &num_terms, "cities.txt");
+    read_in_terms(&term_list, &num_terms, "wiktionary.txt"); //HASSAN MY CODE WORKS (at least, on my pc it works every time, maybe there's an error in your wikitionary file?)
     printf("Hello");
     printf("Number of terms: %d", num_terms);
     for(int j = 0; j<10; j++){
         printf("Term: %s Weight: %f\n", (term_list[j]).term, (term_list[j]).weight);
     }
+
+    int something = lowest_match(term_list, num_terms, "Tor");
+    printf("Lowest match: %d", something);
 }
 

@@ -98,6 +98,54 @@ int lowest_match(term *terms, int nterms, char *substr) {
     return index;
 }
 
+int compare(const void *a, const void *b) { // compare function for qsort
+    term *term1 = (term *) a;
+    term *term2 = (term *) b;
+    if (term1->weight > term2->weight) {
+        return -1;
+    } else if (term1->weight < term2->weight) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+void autocomplete(term **answer, int *n_answer, term *terms, int nterms, char *substr){
+    /*
+     * The function takes terms (assume it is sorted lexicographically in increasing order), the number
+     * of terms nterms, and the query string substr, and places the answers in answer, with *n_answer
+     * being the number of answers. The answers should be sorted by weight in non-increasing order.
+     * qsort MUST be used (ok)
+     */
+
+    //Step 1: Call "read in terms" with *terms, to set up for the next question.
+
+    read_in_terms(&terms, &nterms , "wiktionary.txt");  //Not sure the point of nterms but whatever.
+
+    //Step 2: Find the lowest and highest matches of substring.
+
+    int lowest = lowest_match(terms, nterms, substr);
+    int highest = highest_match(terms, nterms, substr);
+
+    //Step 3: Take selected terms and put them into an 'answer' array
+
+    *answer = malloc((highest - lowest + 1) * sizeof(struct term));
+    for(int i = lowest; i <= highest; i++){
+        (*answer)[i - lowest] = terms[i];
+    }
+
+    //Step 4: Sort the answer array by weight in non-increasing order. (could've just said decreasing but whatever)
+    //qsort ftw
+
+    qsort(*answer, highest - lowest + 1, sizeof(struct term), compare);
+
+    //Step 5: Set n_answer to the number of answers.
+
+    *n_answer = highest - lowest + 1;
+    return;
+
+
+}
 
 
 
