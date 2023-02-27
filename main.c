@@ -27,7 +27,9 @@ int main(void){
         printf("Term: %s Weight: %f\n", (term_list[j]).term, (term_list[j]).weight);
     }
 
+    printf("Hello");
     int something = lowest_match(term_list, num_terms, "Tor");
+    printf("Hello");
     printf("Lowest match: %d", something);
 }
 

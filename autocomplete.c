@@ -78,7 +78,7 @@ void read_in_terms(term **terms, int *pnterms, char *filename) {
     fclose(p_file);
 }
 
-
+/*  -- Old Code (I think)
 int lowest_match(term *terms, int nterms, char *substr) {
     int left = 0;
     int right = nterms - 1;
@@ -94,6 +94,54 @@ int lowest_match(term *terms, int nterms, char *substr) {
             index = mid;
             right = mid - 1;
         }
+    }
+    return index;
+} */
+
+int lowest_match(term *terms, int nterms, char *substr) {
+
+    int left = 0;
+    int right = nterms - 1;
+    int index = -1;
+
+    while (left <= right) {
+        int mid = (left + right) / 2;
+        int cmp = strncmp(terms[mid].term, substr, strlen(substr));
+        if (cmp < 0) {
+            left = mid + 1;
+        } else if (cmp > 0) {
+            right = mid - 1;
+        } else {
+            index = mid;
+            right = mid - 1;
+        }
+
+    }
+
+    while (strncmp(terms[index-1].term, substr, strlen(substr))==0 && index > 0) {
+        index--;
+    }
+    return index;
+}
+
+int highest_match(struct term *terms, int nterms, char *substr) {
+    int left = 0;
+    int right = nterms - 1;
+    int index = -1;
+    while (left <= right) {
+        int mid = (left + right) / 2;
+        int cmp = strncmp(terms[mid].term, substr, strlen(substr));
+        if (cmp < 0) {
+            left = mid + 1;
+        } else if (cmp > 0) {
+            right = mid - 1;
+        } else {
+            index = mid;
+            right = mid - 1;
+        }
+    }
+    while (strncmp(terms[index+1].term, substr, strlen(substr))==0 && index < nterms) {
+        index++;
     }
     return index;
 }
