@@ -5,8 +5,69 @@
 
 #include "autocomplete.h"
 
-int x_i_star(term **terms, int low, int high) { // We love Jimmy Davis for ruining the word Partition so much that I had to rename this function in his honour (x_i*, the partition when evaluating an integral)
-    term pivot = (*terms)[high];
+
+void merge(term *arr, term *left, int left_size, term *right, int right_size) {
+    int i = 0, j = 0, k = 0;
+    while (i < left_size && j < right_size) {
+        if (strcmp(left[i].term, right[j].term) < 0) {
+            arr[k] = left[i];
+            i++;
+        } else {
+            arr[k] = right[j];
+            j++;
+        }
+        k++;
+    }
+    while (i < left_size) {
+        arr[k] = left[i];
+        i++;
+        k++;
+    }
+    while (j < right_size) {
+        arr[k] = right[j];
+        j++;
+        k++;
+    }
+}
+
+void sort_terms(term *arr, int size) {
+    if (size < 2) {
+        return;
+    }
+    int mid = size / 2;
+    term *left = malloc(mid * sizeof(term));
+    term *right = malloc((size - mid) * sizeof(term));
+    memcpy(left, arr, mid * sizeof(term));
+    memcpy(right, arr + mid, (size - mid) * sizeof(term));
+    sort_terms(left, mid);
+    sort_terms(right, size - mid);
+    merge(arr, left, mid, right, size - mid);
+    free(left);
+    free(right);
+}
+
+
+
+
+/*
+int x_i_star(term **terms, int low, int high) { 
+    // choose the median of the first, last, and middle indices as the pivot
+    int middle = (low + high) / 2;
+    term first = (*terms)[low];
+    term last = (*terms)[high];
+    term med = (*terms)[middle];
+    
+    term pivot;
+    if ((strcmp(first.term, med.term) < 0 && strcmp(med.term, last.term) < 0) || 
+        (strcmp(last.term, med.term) < 0 && strcmp(med.term, first.term) < 0)) {
+        pivot = med;
+    } else if ((strcmp(first.term, last.term) < 0 && strcmp(last.term, med.term) < 0) || 
+               (strcmp(med.term, last.term) < 0 && strcmp(last.term, first.term) < 0)) {
+        pivot = last;
+    } else {
+        pivot = first;
+    }
+    
     int i = low - 1;
     for (int j = low; j < high; j++) { // puts all terms less than pivot to the left of pivot
         if (strcmp((*terms)[j].term, pivot.term) < 0) {
@@ -22,13 +83,19 @@ int x_i_star(term **terms, int low, int high) { // We love Jimmy Davis for ruini
     return i + 1;
 }
 
-void sort_terms(term **terms, int low, int high) { // quicksort
-    if (low < high) {
-        int pivot = x_i_star(terms, low, high);
-        sort_terms(terms, low, pivot - 1);
-        sort_terms(terms, pivot + 1, high);
+void sort_terms(term **terms, int low, int high) { // bubble sort
+    int n = high - low + 1;
+    for (int i = 0; i < n-1; i++) {
+        for (int j = low; j < high-i; j++) {
+            if (strcmp((*terms)[j].term, (*terms)[j+1].term) > 0) {
+                term temp = (*terms)[j];
+                (*terms)[j] = (*terms)[j+1];
+                (*terms)[j+1] = temp;
+            }
+        }
     }
-}
+}*/
+
 
 
 
@@ -73,8 +140,9 @@ void read_in_terms(term **terms, int *pnterms, char *filename) {
         strcpy((*terms)[i].term, token);
         i++;
     }
-    sort_terms(terms, 0, nterms - 1);
-
+    //sort_terms(terms, 0, nterms-1);
+    sort_terms(*terms, *pnterms);
+  
     fclose(p_file);
 }
 
@@ -175,6 +243,11 @@ void autocomplete(term **answer, int *n_answer, term *terms, int nterms, char *s
     int lowest = lowest_match(terms, nterms, substr);
     int highest = highest_match(terms, nterms, substr);
 
+    if(lowest==-1 || highest ==-1) {
+      *n_answer = 0;
+      return;
+    }
+  
     //Step 3: Take selected terms and put them into an 'answer' array
 
     *answer = malloc((highest - lowest + 1) * sizeof(struct term));
@@ -192,26 +265,11 @@ void autocomplete(term **answer, int *n_answer, term *terms, int nterms, char *s
     *n_answer = highest - lowest + 1;
     //return;
 
-
 }
 
 
 
-/*
-int main(void) {
-    term* term_list;
-    int num_terms;
-    printf("Hello");
-    read_in_terms(&term_list, &num_terms, "cities.txt");
-    printf("Hello");
-    for(int j = 0; j<10; j++){
-        printf("Term: %s\n Weight: %f", (term_list[j]).term, (term_list[j]).weight);
-    }
-
-    return 0;
-} */
-
 
 //
-// Created by Nicholas on 2023-02-01.
+// Created by Nicholas and Hassan Tahir on 2023-02-01.
 //
